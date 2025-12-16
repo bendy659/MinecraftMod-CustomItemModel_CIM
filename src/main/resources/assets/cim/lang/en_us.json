@@ -1,0 +1,30 @@
+{
+    "_comment_exception": "Translation for Exceptions",
+    "cim.exception.unknown": "Unknown error",
+
+    "cim.exception.location.dir_exist_but_file_not": "The directory 'cim_model' exists, but the file 'cim_models.json' - no, in '#p0'!",
+    "cim.exception.location.file_exist_but_dir_not": "The file 'cim_models.json' exists, but the directory 'cim_models' - no, in '#p0'!",
+
+    "cim.exception.file.unknown": "<Unknown_Error_File_'#p0'_In_'#p1'>",
+    "cim.exception.file.parse": "<Error_Parse_File_'#p0'_In_'#p1'>",
+    "cim.exception.file.not_exist": "<Error_File_'#p0'_Not_Exist_In_'#p1'>",
+
+    "cim.exception.file.cim_models_json.entries.is_not_exist": "The 'entries' prop does not exist, in '#p0'",
+    "cim.exception.file.cim_models_json.entries.is_not_array": "The 'entries' prop is not Array, in '#p0'",
+    "cim.exception.file.cim_models_json.entries.is_empty": "The 'entries' prop is empty, in '#p0'",
+
+    "cim.exception.file.cim_models_json.components.is_not_object": "The 'components' is not Object (Maybe is Array?)",
+    "cim.exception.file.cim_models_json.components.unknown_component": "Unknown component '#p0' key",
+
+    "_comment_screen": "Translation for GUI",
+    "cim.screen.header": "CIM Important Notice",
+    "cim.screen.label.0": "In 'cim_models.json', the 'components' field is strictly for static filtering (exact match).",
+    "cim.screen.label.1": "Avoid using dynamic data (like Damage or Bow Pull) here, otherwise the model will reset repeatedly.",
+    "cim.screen.label.2": "Use unique animations names for dynamics. It allows you to control animations based on component values.",
+    "cim.screen.label.3": "Animations support: Cooldowns, Item Usage, Display Context, and Active Hand.",
+
+    "cim.screen.block.warnings": "Warnings",
+    "cim.screen.block.errors": "Errors",
+
+    "cim.unknown": "Unknown"
+}

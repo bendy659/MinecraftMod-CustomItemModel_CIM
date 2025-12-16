@@ -1,0 +1,19 @@
+# Project exclude paths
+
+# Gradle
+/.gradle/
+
+# IDEA
+/.idea/
+
+# Kotlin
+/.kotlin/
+
+# Build
+/build/
+/buildSrc/.gradle/
+/buildSrc/build/
+/buildSrc/build/classes/kotlin/main/
+
+# Versions
+/versions/

@@ -1,0 +1,32 @@
+{
+    "_comment_exception": "Translation for Exceptions",
+    "cim.exception.unknown": "Неизвестная ошибка",
+
+    "cim.exception.location.dir_exist_but_file_not": "Директория 'cim_model' существует, но файла 'cim_models.json' - нет, в '#p0'!",
+    "cim.exception.location.file_exist_but_dir_not": "Файл 'cim_models.json' существует, но директории 'cim_models' - нет, в '#p0'!",
+
+    // p0 - имя файла
+    // p1 - путь к файлу в формате 'ResourceLocation' без учёта имени файла
+    "cim.exception.file.unknown": "<Неизвестная_Ошибка_Файла_'#p0'_В_'#p1'>",
+    "cim.exception.file.parse": "<Ошибка_Парсинга_Файла'#p0'_В_'#p1'>",
+    "cim.exception.file.not_exist": "<Ошибка_Файл_'#p0'_Нет_Существует_В_'#p1'>",
+
+    "cim.exception.file.cim_models_json.entries.is_not_exist": "'entries' не существует, в '#p0'!",
+    "cim.exception.file.cim_models_json.entries.is_not_array": "'entries' не массив (Array), в '#p0'!",
+    "cim.exception.file.cim_models_json.entries.is_empty": "'entries' пустой, в '#p0'!",
+
+    "cim.exception.file.cim_models_json.components.is_not_object": "'components' не объект (Может быть это массив (Array)?)",
+    "cim.exception.file.cim_models_json.components.unknown_component": "Неизвестный ключ компонента '#p0'",
+
+    "_comment_screen": "Translation for GUI",
+    "cim.screen.header": "Важное примечание CIM",
+    "cim.screen.label.0": "В файле cim_models.json поле 'components' предназначено только для статической фильтрации (точное совпадение).",
+    "cim.screen.label.1": "Не используйте там динамические данные (Урон, Натяжение), иначе модель будет сбрасываться.",
+    "cim.screen.label.2": "Для динамики используйте уникальные имена анимаций. Он позволяет управлять анимацией на основе значений компонентов.",
+    "cim.screen.label.3": "Анимации поддерживают: Кулдауны, Использование предмета, Контекст отображения и Руку.",
+
+    "cim.screen.block.warnings": "Предупреждения",
+    "cim.screen.block.errors": "Ошибки",
+
+    "cim.unknown": "Неизвестно"
+}

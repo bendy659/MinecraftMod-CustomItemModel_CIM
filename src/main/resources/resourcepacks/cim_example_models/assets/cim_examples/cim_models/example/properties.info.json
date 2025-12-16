@@ -1,0 +1,54 @@
+{
+    // > Имя модели. Чисто для красоты :D
+    "name": "Example name model",
+    // [ Не обязательно. Тогда в качестве имени будет как `namespace:model_id` ]
+
+    // Авторы модели. Чисто для красоты :D
+    "authors": [ "Author_0", "Author_1" ],
+    // [ Не обязательно. Тогда в качестве авторов будет как `Неизвестно` ]
+
+    /*
+     * > Контекст отображения для переопределения ресурсов.
+     * > Если не указывать - будет использован пресет по умолчанию,
+     *   где для всех типов отображение будет браться:
+     *   |- `model`                 - './model.geo.json'
+     *   |- `texture`               - './texture.png'
+     *   |- `animations`            - './animations.json'
+     *   \- `animation_controller`  - './animation_controller.json'
+     * > Если же указать - можно переопределить ресурсы в зависимости
+     *   от контекста отображения предмета:
+     *   |- `none` - пресет по умолчанию.
+     *   |- `first_person_left_hand`  - контекст для левой руки от первого лица
+     *   |- `first_person_right_hand` - контекст для правой руки
+     *   |- `third_person_left_hand`  - контекст для левой руки от третьего лица
+     *   |- `third_person_right_hand` - контекст для правой руки
+     *   |- `ground`                  - контекст на земле
+     *   |- `gui`                     - контекст в меню
+     *   |- `head`                    - контекст для головы
+     *   |- `fixed`                   - контекст для рамки
+     *   \- `shell` (1.21x)           - контекст для полок
+     * > В каждом из контекстов можно переопределить: модель, текстур, анимации и контроллер анимации
+     * > Если какой-то из компонентов не будет указан - то значение этого компонента будет взято из `none`
+     * > Пример: если не указать значение для `model`, То будет взято значение из `none` из `model`
+     * display_context: {
+     *     none: {
+     *         model: "namespace:this_model/other.geo.json",
+     *         texture: "namespace:this_model/other_texture.png"
+     *     },
+     *     ground: {
+     *         // `model` пропущена. Значение будет как `namespace:this_model/other.geo.json` из `none > model`
+     *         texture: "namespace:this_model/other_texture.png"
+     *     }
+     * }
+     * > Если в значении параметра в начале указать `./` - это будет значит что
+     *   модель стоить искать там же, где и лежит текущий `properties.json`
+    */
+    "display_context": {
+        "none": {
+            "model": "./model.geo.json",
+            "texture": "./texture.png",
+            "animations": "./animations.json",
+            "animation_controller": "./animation_controller.json"
+        }
+    }
+}

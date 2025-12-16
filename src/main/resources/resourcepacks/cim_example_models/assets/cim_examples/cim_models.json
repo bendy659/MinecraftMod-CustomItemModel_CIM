@@ -1,0 +1,23 @@
+{
+    "entries": [
+        {
+            "items": [ "stick" ],
+            "components": { "custom_model_data": 12345 },
+            "model": "cim_examples:matrix_cube"
+        },
+        {
+            "items": [ "golden_sword" ],
+            "components": { "custom_model_data": 12345 },
+            "model": "cim_examples:magic_sword"
+        },
+        {
+            "items": [ "potion" ],
+            "components": {
+                "custom_model_data": 12345,
+                "potion_contents": { "potion": "water" }
+            },
+            "mode": "all",
+            "model": "cim_examples:bottle_of_water"
+        }
+    ]
+}
