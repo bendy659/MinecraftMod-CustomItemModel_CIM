@@ -1,5 +1,6 @@
 package ru.benos.cim.client.serializable
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import net.minecraft.client.renderer.block.model.ItemTransform
 import net.minecraft.world.item.ItemDisplayContext
@@ -7,7 +8,11 @@ import org.joml.Vector3f
 import ru.benos.cim.client.serializer.ItemDisplayContextSerializer
 
 @Serializable
-data class DisplayData(val display: Map<@Serializable(ItemDisplayContextSerializer::class) ItemDisplayContext, DisplayTransform>)
+data class DisplayData(
+    val display: Map<@Serializable(ItemDisplayContextSerializer::class) ItemDisplayContext, DisplayTransform>,
+    @SerialName("disable_spinning") val disableSpinning: Boolean = false,
+    @SerialName("disable_bobbing") val disableBobbing: Boolean = false
+)
 
 @Serializable
 data class DisplayTransform(

@@ -4,10 +4,16 @@ import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.core.component.DataComponentPatch
+import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemDisplayContext
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.component.CustomData
+import net.minecraft.world.item.component.CustomModelData
+import ru.benos.cim.client.CIM
 import ru.benos.cim.client.CIMModelsRegistry
 import ru.benos.cim.client.exception.CIMException
 import ru.benos.cim.client.exception.CIMExceptionType
@@ -20,12 +26,11 @@ import java.util.*
 object CIMItemRenderer {
     var itemIdCache: WeakHashMap<ItemStack, ResourceLocation> = WeakHashMap()
     var animatableCache: WeakHashMap<ItemStack, CIMAnimatable> = WeakHashMap()
-    var animatableInstanceCache: WeakHashMap<ItemStack, AnimatableInstanceCache> = WeakHashMap()
     var geoModelCache: WeakHashMap<ResourceLocation, CIMGeoModel> = WeakHashMap()
-    var rendererCache: WeakHashMap<CIMGeoModel, GeoObjectRenderer<CIMAnimatable>> = WeakHashMap()
+    var rendererCache: WeakHashMap<ResourceLocation, GeoObjectRenderer<CIMAnimatable>> = WeakHashMap()
 
     fun clearCache() =
-        listOf(itemIdCache, animatableInstanceCache, geoModelCache).forEach { it.clear() }
+        listOf(itemIdCache, animatableCache, geoModelCache).forEach { it.clear() }
 
     data class Context(
         val itemStack: ItemStack,
@@ -48,8 +53,7 @@ object CIMItemRenderer {
 
         val animatable = getAnimatable(ctx.itemStack)
 
-        val cimGeoModel = geoModelCache.computeIfAbsent(itemId) { CIMGeoModel(itemId, ctx.displayContext) }
-        cimGeoModel.itemDisplayContext = ctx.displayContext
+        val cimGeoModel = getGeoModel(itemId)
 
         try {
             ctx.poseStack.pushPose()
@@ -62,7 +66,7 @@ object CIMItemRenderer {
             ctx.poseStack.translate(-.5, -.5, -.5)
 
             // Финальный рендер //
-            val renderer = getRenderer(cimGeoModel)
+            val renderer = getRenderer(itemId)
             renderer.render(
                 ctx.poseStack,
                 animatable,
@@ -88,11 +92,11 @@ object CIMItemRenderer {
     fun getAnimatable(itemStack: ItemStack): CIMAnimatable =
         animatableCache.computeIfAbsent(itemStack) { CIMAnimatable(itemStack) }
 
-    fun getAnimatableInstanceCache(itemStack: ItemStack, animatable: CIMAnimatable): AnimatableInstanceCache =
-        animatableInstanceCache.computeIfAbsent(itemStack) { GeckoLibUtil.createInstanceCache(animatable) }
+    fun getGeoModel(itemId: ResourceLocation): CIMGeoModel =
+        geoModelCache.computeIfAbsent(itemId) { CIMGeoModel(itemId) }
 
-    fun getRenderer(cimGeoModel: CIMGeoModel): GeoObjectRenderer<CIMAnimatable> =
-        rendererCache.computeIfAbsent(cimGeoModel) { GeoObjectRenderer(cimGeoModel) }
+    fun getRenderer(itemId: ResourceLocation, ): GeoObjectRenderer<CIMAnimatable> =
+        rendererCache.computeIfAbsent(itemId) { GeoObjectRenderer(getGeoModel(itemId)) }
 
     fun ItemStack.matchesComponents(requiredPatch: DataComponentPatch?, mode: CIMComponentMode): Boolean {
         // 1. Если фильтр пустой — считаем, что подходит любой предмет (или false, зависит от твоей логики)
