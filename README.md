@@ -118,6 +118,114 @@ Requires mods / Требуются моды:
 
 </details>
 
+<details>
+<summary>[EN]</summary>
+
+# How it works
+
+<details>
+<summary>Model registration</summary>
+
+You need to create a `cim_models.json` file at `<your_resource_pack>/assets/<namespace>/cim_models.json` with the following structure:
+```json
+{
+    "entries": [
+        {
+            "items": [ "<item_id_here>" ],
+            "components": { "<component_name>": <component_value> },
+            "mode": "<any/all/only>",
+            "model": "<model_id>"
+        }
+    ]
+}
+```
+> Where:
+> - `entries` - List of model entries.
+> - `items` - List of item_ids. Can be specified with or without a namespace (e.g. stick or mod_id:item_id).
+> - `components` - List of item components. Can be a simple string or number, or any other valid JSON value:
+>   - "custom_model_data": 12345
+>   - "potion_contents": { "potion": "water" }
+> - mode - Component matching mode:
+>   - any - The item must contain at least one of the listed components.
+>   - all - The item must contain all listed components.
+>   - only - The item must contain only the listed components and nothing else.
+> - model - Model ID. In practice, this is the directory name that contains properties.json: `<your_resource_pack>/assets/<namespace>/cim_models/<model_id>/properties.json` -> `<namespace>:<model_id>`
+
+</details>
+
+<details>
+<summary>Model description and behavior</summary>
+
+Next, you need to prepare the model resources.
+
+If you only want to replace the item model itself, without display context overrides (display), you may omit `properties.json`.
+If it is missing, the mod will automatically generate default values.
+
+The following data will be generated automatically: Model name, Authors list (1 author) and Display profile.
+> A context-less display profile with default resource paths:
+> - display = none - this profile will be used regardless of display type (in-hand, GUI, on ground, etc.)
+>   - model = ./model.geo.json
+>       - The model file must be located in the same directory as `properties.json` (the ./ prefix marks it as a local resource)
+>       - The file must be named exactly model.geo.json
+>   - texture = ./texture.png
+>       - The texture file must be located in the same directory as properties.json
+>       - The file must be named exactly texture.png
+>   - animations = ./animations.json
+>       - The animations file must be located in the same directory as properties.json
+>       - The file must be named exactly animations.json
+>   - display = ./display
+>       - The display file must be located in the same directory as properties.json
+>       - The file must be named exactly display
+
+If you want to define more advanced model behavior, create properties.json using the following template:
+
+```json
+{
+    "name": "<model_name_here>",
+    "authors": [ "<author_here>" ],
+    
+    "disable_ground_bobbing": <true/false>,
+    "disable_ground_spinning": <true/false>,
+    
+    "display_context": {
+        "<display_context_id>": {
+            "model": "<model_location>",
+            "texture": "<texture_location>",
+            "animations": "<animations_location>",
+            "display": "<display_location>"
+        }
+    }
+}
+```
+> Where:
+> - name - Model name (currently mostly cosmetic, may be expanded in the future).
+> - authors - List of model authors (also currently cosmetic).
+> - disable_ground_bobbing - Set to true to disable vertical bobbing when the item is on the ground.
+> - disable_ground_spinning - Set to true to disable rotation when the item is on the ground.
+> - display_context - Resource profile controller.
+>   - display_context_id - Item display context ID:
+>     - none - Default context
+>     - firstperson_lefthand - First-person, left hand
+>     - firstperson_righthand - First-person, right hand
+>     - thirdperson_lefthand - Third-person, left hand
+>     - thirdperson_righthand - Third-person, right hand
+>     - head - On the head
+>     - gui - GUI (inventories, containers)
+>     - ground - On the ground (dropped item)
+>     - fixed - Item frame
+>     - on_shelf - On a shelf
+> - Profile description:
+>   - If resources are located in the same directory as properties.json, use the ./ prefix followed by the file name.
+>   - model - Path to the model file.
+>   - texture - Path to the model texture.
+>   - animations - Path to the animations file.
+>   - display - Path to the display file.
+>   - You do not need to redefine the full profile for each context. Any missing values are inherited from the none context.
+
+</details>
+
+</details>
+
 ---
 
 <details>
