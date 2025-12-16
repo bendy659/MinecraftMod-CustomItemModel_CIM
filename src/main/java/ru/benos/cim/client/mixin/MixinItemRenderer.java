@@ -9,14 +9,13 @@ import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import ru.benos.cim.client.geo.CIMItemRenderer;
 
 @Mixin(ItemRenderer.class)
 public class MixinItemRenderer {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    public void render(
+    public void cim$render(
             ItemStack itemStack,
             ItemDisplayContext displayContext,
             boolean leftHand,
@@ -27,7 +26,7 @@ public class MixinItemRenderer {
             BakedModel model,
             CallbackInfo ci
     ) {
-        boolean isCanceled = CIMItemRenderer.INSTANCE.renderer(
+        boolean isCanceled = CIMItemRenderer.INSTANCE.render(
                 new CIMItemRenderer.Context(
                         itemStack,
                         displayContext,

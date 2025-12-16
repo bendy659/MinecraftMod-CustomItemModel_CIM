@@ -1,4 +1,7 @@
 {
 	"name": "Bottle of water",
-    "authors": [ "_BENDY659_" ]
+    "authors": [ "_BENDY659_" ],
+
+    "disable_ground_bobbing": true,
+    "disable_ground_spinning": true
 }

@@ -267,13 +267,17 @@ object CIMModelsRegistry {
 
             val displayContext = mutableMapOf<ItemDisplayContext, CIMDisplayProfileData>()
             propertiesObject.displayContext.forEach { (key, value) ->
-                val fullValue = value.fullLocations(namespace, modelId)
-                fullValue ?: return@forEach
-
+                val fullValue = value.fullLocations(namespace, modelId) ?: return@forEach
                 displayContext += key to fullValue
             }
 
-            return CIMPropertiesData(propertiesObject.name ?: pName, propertiesObject.authors ?: pAuthors, displayContext)
+            return CIMPropertiesData(
+                name = propertiesObject.name ?: pName,
+                authors = propertiesObject.authors ?: pAuthors,
+                disableGroundBobbing = propertiesObject.disableGroundBobbing,
+                disableGroundSpinning = propertiesObject.disableGroundSpinning,
+                displayContext = displayContext
+            )
         } catch (e: Exception) {
             CIMException(
                 type = CIMExceptionType.File.Unknown,
@@ -287,13 +291,15 @@ object CIMModelsRegistry {
             // Ресурс не был обнаружен. Создаём новый runtime-properties.json //
             val displayContext = mutableMapOf<ItemDisplayContext, CIMDisplayProfileData>()
             CIMPropertiesData().displayContext.forEach { (key, value) ->
-                val fullValue = value.fullLocations(namespace, modelId)
-                fullValue ?: return@forEach
-
+                val fullValue = value.fullLocations(namespace, modelId) ?: return@forEach
                 displayContext += key to fullValue
             }
 
-            return CIMPropertiesData(pName, pAuthors, displayContext)
+            return CIMPropertiesData(
+                name = pName,
+                authors = pAuthors,
+                displayContext = displayContext
+            )
         }
     }
 

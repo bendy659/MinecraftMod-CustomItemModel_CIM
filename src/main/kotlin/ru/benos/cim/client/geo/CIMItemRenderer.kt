@@ -41,7 +41,7 @@ object CIMItemRenderer {
         val lightOverlay: Int
     )
 
-    fun renderer(ctx: Context): Boolean {
+    fun render(ctx: Context): Boolean {
         val itemId = getItemId(ctx.itemStack)
         if (ctx.itemStack.isEmpty) return false
 
