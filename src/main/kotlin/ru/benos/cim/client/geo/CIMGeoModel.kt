@@ -53,8 +53,11 @@ class CIMGeoModel(
         this.animatable = animatable
 
         val modelId = CIMModelsRegistry.getModelId(itemId)
-        val bakedAnimations = CIMModelsRegistry.getBakedAnimations(modelId, animatable.itemDisplayContext)
-        val animation = bakedAnimations?.getAnimation(name)
+        var bakedAnimations = CIMModelsRegistry.getBakedAnimations(modelId, animatable.itemDisplayContext)
+        if (bakedAnimations == null)
+            bakedAnimations = CIMModelsRegistry.getBakedAnimations(CIMModelsRegistry.EMPTY_MODEL_ID.rl, ItemDisplayContext.NONE)
+
+        val animation = bakedAnimations!!.getAnimation(name)
 
         return animation
     }

@@ -43,6 +43,10 @@ object CIMModelsRegistry {
     val ERROR_TEXTURE_LOCATION = "cim:cim_models/error/texture.png"
     val ERROR_ANIMATIONS_LOCATION = "cim:cim_models/error/animations.json"
 
+    val EMPTY_MODEL_ID = "cim:empty"
+
+    private val ignoreModelError = listOf(ERROR_MODEL_ID, EMPTY_MODEL_ID)
+
     // Key: ResourceLocation = Based <ItemID>
     private val REGISTRY: MutableMap<ResourceLocation, RegistryValue> = ConcurrentHashMap()
     data class RegistryValue(
@@ -118,7 +122,7 @@ object CIMModelsRegistry {
     fun CIMModelsData.registry(manager: ResourceManager) {
         // Проходка по списку //
         entries.forEach { (items, components, mode, priority, model) ->
-            if (model == ERROR_MODEL_ID) CIMException.muteNext(CIMExceptionType.File.Unknown)
+            if (model in ignoreModelError) CIMException.muteNext(CIMExceptionType.File.Unknown)
 
             try {
                 val componentsFinal = components.parseToDataComponentPatch
@@ -137,10 +141,6 @@ object CIMModelsRegistry {
 
                 // Регистрация моделей по itemID //
                 items.forEach { itemId ->
-                    if (itemId == "potion") {
-                        println(componentsFinal)
-                        println(propertiesFinal)
-                    }
                     REGISTRY[itemId.rl] = RegistryValue(componentsFinal, mode, priority, propertiesFinal, model.rl) }
             } catch (e: Exception) {
                 CIMException(
@@ -159,7 +159,6 @@ object CIMModelsRegistry {
             .replace("cim_models", "")
             .replaceAfterLast("/", "")
             .replace("/", "")
-        println("$location, $modelId")
 
         val resource = manager.getResource(location)
         if (resource.isEmpty) return
