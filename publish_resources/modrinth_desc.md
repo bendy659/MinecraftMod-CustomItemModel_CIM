@@ -59,40 +59,46 @@ Add a new element to entries with the following structure:
 <details>
 <summary>#2 Model properties setup</summary>
 
-If we need replace only model &(or) animations, to need contains next files in 'folder_name':
+If you only need to replace the model and/or animations, the following files must be present in the `folder_name`
+directory:
 ```
 /cim_models/<model_id>/
 |- model.geo.json  | Item model file
 |- texture.png     | Texture for model
-|- animations.json | Animations for model. Is not requier
-\- display.json    | Display transform for model. Is not requier
+|- animations.json | Animations for model (optional)
+\- display.json    | Display transform for model (optional)
 ```
-Need to use that's file name!
+You **must use these exact file names**.
 
-Else, wee need to more detail setting model, to need create a 'properties.json' file
-in '/cim_model/<model_id>/properties.json' with next content:
+Otherwise, if you need more detailed model configuration, you must create a `properties.json` file at
+`/cim_models/<model_id>/properties.json` with the following content:
 ```json
 {
-    "name": /* A model name. Is don't use now */,
-    "authors": /* A list authors. Is dont' use now */,
-    
-    "disable_ground_bobbing": true, // If we need to disable flying item (up-down slide)
-    "disable_ground_spinning": true, // If we need to disable spinning item
-    
-    "display_context": { /* Pair element at 'item_display_context' and 'cim_profile' */ }
+    "name": /* Model name (currently unused) */,
+    "authors": /* List of authors (currently unused) */,
+
+    "disable_ground_bobbing": true,   // Disables item floating (up-down movement)
+    "disable_ground_spinning": true,  // Disables item spinning on the ground
+
+    "display_context": {
+        /* Mapping between item_display_context and cim_profile */
+    }
 }
 ```
-The `display_context` contains default profile for 'item_display_context' equal 'none':
+The display_context field defines the default `profile` for the `item_display_context` equal to none:
 ```json
 {
-    // Local resources //
-    
     "model": "./model.geo.json",
     "texture": "./texture.png",
     "animations": "./animations.json",
     "display": "./display.json"
 }
 ```
+> Where:
+> - model — Path to the model resource. Use the ./ prefix for local resources.
+> - texture — Path to the model texture. Use the ./ prefix for local resources.
+> - animations — Path to the animations file. Optional. Use the ./ prefix for local resources.
+> - display — Path to the display transform file. Optional. Use the ./ prefix for local resources.
 
 </details>
 
