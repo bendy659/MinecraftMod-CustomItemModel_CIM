@@ -48,12 +48,15 @@ public abstract class MixinItemEntityRenderer extends EntityRenderer<ItemEntity>
             int packedLight,
             CallbackInfo ci
     ) {
-        poseStack.pushPose();
-
         ItemStack itemStack = entity.getItem();
         ResourceLocation itemId = CIMItemRenderer.INSTANCE.getItemId(itemStack);
-        String modelId = CIMModelsRegistry.INSTANCE.getModelId(itemId).getPath();
-        CIMPropertiesData propertiesData = Objects.requireNonNull(CIMModelsRegistry.INSTANCE.getModelData(itemId)).getProperties();
+        //String modelId = CIMModelsRegistry.INSTANCE.getModelId(itemId).getPath();
+        CIMModelsRegistry.RegistryValue registryValue = CIMModelsRegistry.INSTANCE.getModelData(itemId);
+        if (registryValue == null) return;
+
+        CIMPropertiesData propertiesData = registryValue.getProperties();
+
+        poseStack.pushPose();
 
         boolean disableBobbing = propertiesData.getDisableGroundBobbing();
         boolean disableSpinning = propertiesData.getDisableGroundSpinning();
