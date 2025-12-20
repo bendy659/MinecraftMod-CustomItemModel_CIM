@@ -1,7 +1,7 @@
 package ru.benos.cim.client.patch
 
 //? if fabric {
-//? }
+//?}
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.minecraft.ChatFormatting
@@ -92,9 +92,9 @@ object MainMenuPatch {
                     }
                 }
             }
-            //? }
+            //?}
             //? if neoforge || forge {
-            Unit
-            //? }
+            /*Unit
+            *///?}
         }
 }

@@ -1,6 +1,6 @@
 package ru.benos.cim.client
 //? if fabric {
-//? }
+//?}
 import kotlinx.serialization.json.*
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
 import net.minecraft.resources.ResourceLocation
@@ -24,7 +24,7 @@ object CIMReload {
         override fun getFabricId(): ResourceLocation = "${CIM.MODID}:resources".rl
         override fun onResourceManagerReload(resourceManager: ResourceManager) = reload(resourceManager)
     }
-    //? }
+    //?}
 
     private fun reload(manager: ResourceManager) {
         CIMModelsRegistry.clearAll()

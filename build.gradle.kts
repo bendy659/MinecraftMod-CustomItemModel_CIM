@@ -13,6 +13,11 @@ plugins {
 val minecraft = stonecutter.current.version
 val loader = loom.platform.get().name.lowercase()
 
+val owoLibVersion = when(minecraft) {
+    "1.21.1", "1.21.2", "1.21.3", "1.21.4" -> "1.21"
+    else -> minecraft
+}
+
 version = "${mod.version}+$minecraft"
 group = mod.group
 
@@ -69,12 +74,8 @@ dependencies {
     implementation("com.eliotlash.mclib:mclib:20")
 
     // OwO-lib //
-    val owoVersion = when(minecraft) {
-        "1.21.1", "1.21.2", "1.21.3", "1.21.4" -> "1.21"
-        else -> minecraft
-    }
-    modImplementation("io.wispforest:owo-lib:${mod.dep("owo_lib")}+$owoVersion")
-    include("io.wispforest:owo-sentinel:${mod.dep("owo_lib")}+$owoVersion")
+    modImplementation("io.wispforest:owo-lib:${mod.dep("owo_lib")}+$owoLibVersion")
+    include("io.wispforest:owo-sentinel:${mod.dep("owo_lib")}+$owoLibVersion")
 
     if (loader == "fabric") {
         modImplementation("net.fabricmc:fabric-loader:${mod.dep("fabric_loader")}")
@@ -97,11 +98,11 @@ dependencies {
 }
 
 loom {
+    mixin { defaultRefmapName.set("${mod.id}-refmap.json") }
+
     accessWidenerPath = rootProject.file("src/main/resources/${mod.id}.accesswidener")
 
-    decompilers {
-        get("vineflower").apply { options.put("mark-corresponding-synthetics", "1") }
-    }
+    decompilers { get("vineflower").apply { options.put("mark-corresponding-synthetics", "1") } }
 
     if (loader == "forge") forge.mixinConfigs("${mod.id}-common.mixins.json", "${mod.id}-forge.mixins.json")
 
@@ -227,6 +228,13 @@ tasks.processResources {
         "minecraft" to mod.prop("mc_dep_forgelike"),
         "author" to mod.prop("author")
     )
+    properties(
+        listOf("cim-fabric.mixins.json", "cim-forge.mixins.json", "cim-neoforge.mixins.json"),
+        "id" to mod.id,
+        "id" to mod.id,
+        "version" to minecraft,
+        "loader" to loader
+    )
 }
 
 tasks.build {
@@ -234,7 +242,6 @@ tasks.build {
     description = "Must run through 'chiseledBuild'"
 }
 
-tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    archiveFileName.set("CIM-$minecraft-$loader-${mod.prop("version")}.jar")
-    archiveClassifier.set("")
-}
+tasks.remapJar { archiveFileName.set("CIM-$minecraft-$loader-${mod.prop("version")}.jar") }
+
+tasks.shadowJar { archiveClassifier.set("dev-shadow") }

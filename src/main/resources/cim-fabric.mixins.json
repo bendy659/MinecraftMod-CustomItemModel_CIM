@@ -2,10 +2,10 @@
     "required": true,
     "package": "ru.benos.cim.client.mixin",
     "compatibilityLevel": "JAVA_17",
+    "refmap": "${id}-refmap.json",
     "client": [
         "MixinItemEntityRenderer",
         "MixinItemRenderer"
     ],
-    "injectors": {
-        "defaultRequire": 1 }
+    "injectors": { "defaultRequire": 1 }
 }
