@@ -13,10 +13,11 @@ plugins {
 val minecraft = stonecutter.current.version
 val loader = loom.platform.get().name.lowercase()
 
-val owoLibVersion = when(minecraft) {
-    "1.21.1", "1.21.2", "1.21.3", "1.21.4" -> "1.21"
-    else -> minecraft
-}
+val owoLibVersion = minecraft
+    .split('.')
+    .take(2)
+    .joinToString(".")
+
 
 version = "${mod.version}+$minecraft"
 group = mod.group
@@ -29,7 +30,6 @@ architectury.common(stonecutter.tree.branches.mapNotNull {
 })
 repositories {
     maven("https://maven.neoforged.net/releases/")
-    maven("https://maven.terraformersmc.com/")
     maven("https://maven.nucleoid.xyz/")
 
     maven("https://maven.parchmentmc.org")
@@ -48,14 +48,9 @@ repositories {
 dependencies {
     minecraft("com.mojang:minecraft:$minecraft")
 
-    val parchmentVersion: Map<String, String> = mapOf(
-        "1.21.1" to "2024.11.17",
-        "1.20.1" to "2023.09.03"
-    )
-
     mappings(loom.layered {
         officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-$minecraft:${parchmentVersion[minecraft]}@zip")
+        parchment("org.parchmentmc.data:parchment-${Parchment.get(minecraft)}@zip")
     })
 
     // Architectury API //
@@ -70,18 +65,17 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:1.13.6+kotlin.2.2.20")
 
     // GeckoLib //
-    modImplementation("software.bernie.geckolib:geckolib-fabric-$minecraft:${mod.dep("geckolib")}")
+    modImplementation("software.bernie.geckolib:geckolib-$loader-$minecraft:${GeckoLib.get(loader, minecraft)}")
     implementation("com.eliotlash.mclib:mclib:20")
 
     // OwO-lib //
-    modImplementation("io.wispforest:owo-lib:${mod.dep("owo_lib")}+$owoLibVersion")
-    include("io.wispforest:owo-sentinel:${mod.dep("owo_lib")}+$owoLibVersion")
+    modImplementation("io.wispforest:owo-lib:${OwoLib.get(loader, minecraft)}+$minecraft")
+    include("io.wispforest:owo-sentinel:${OwoLib.get(loader, minecraft)}+$minecraft")
 
     if (loader == "fabric") {
         modImplementation("net.fabricmc:fabric-loader:${mod.dep("fabric_loader")}")
-        modImplementation("com.terraformersmc:modmenu:${mod.dep("modmenu_version")}")
 
-        modImplementation("net.fabricmc.fabric-api:fabric-api:${mod.dep("fabric_version")}")
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${FabricApi.get(minecraft)}+$minecraft")
 
     }
     if (loader == "forge") {
